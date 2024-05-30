@@ -8,10 +8,15 @@ CORS(app)
 ts=TranscriptionService()
 
 @app.route('/send_audio_data', methods=['POST'])
-def call():
+def send_audio_data():
     data = request.form["data"]
     value = str(ts.streaming_data(data))
     if len(value)>0:
         return jsonify({"output":value})
     else:
         return jsonify({"output":"_____"})
+
+
+@app.route('/close')
+def close():
+    ts.dg_connection.finish()
